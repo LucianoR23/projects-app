@@ -11,11 +11,13 @@
         </tr>
       </thead>
       <tbody>
-        <tr class="hover:bg-base-300">
-          <th>2</th>
-          <td>Hart Hagerty</td>
-          <td>Desktop Support Technician</td>
-          <td>Purple</td>
+        <tr v-for="(project, index) in projectStore.projectList" :key="project.id" class="hover:bg-base-300">
+          <th>{{ index + 1 }}</th>
+          <td>{{ project.name }}</td>
+          <td>{{ project.tasks.length }}</td>
+          <td>
+            <progress class="progress progress-primary w-56" value="1" max="100"></progress>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -24,7 +26,7 @@
   <InputModal
     :open="modalOpen"
     @close="modalOpen = false"
-    @value="onNewValue"
+    @value="projectStore.addProject"
     placeholder="Ingrese el nombre del proyecto"
     title="Nuevo proyecto"
     subtitle="Ingrese el nombre del nuevo proyecto que desea crear"
@@ -59,12 +61,11 @@ import FabButton from '@/modules/common/components/FabButton.vue';
 import InputModal from '@/modules/common/components/InputModal.vue';
 import AddCircle from '@/modules/common/icons/AddCircle.vue';
 import { ref } from 'vue';
+import { useProjectStore } from '../store/projects.store';
 
 const modalOpen = ref(false);
 const customModalOpen = ref(false);
 
-const onNewValue = ( projectName: string ) => {
-  console.log({ projectName })
-}
+const projectStore = useProjectStore();
 
 </script>
