@@ -15,15 +15,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(task, index) in project?.tasks" :key="index" class="hover:bg-base-300">
-              <th>{{ task.id }}</th>
+            <tr v-for="task in project?.tasks" :key="task.id" class="hover:bg-base-300">
+              <th>
+                <input type="checkbox" @change="projectStore.toggleTask(project?.id ?? '', task.id)" :checked="!!task.completedAt" class="checkbox checkbox-primary">
+              </th>
               <td>{{ task.name }}</td>
               <td>{{ task.completedAt ?? 'Incompleto' }}</td>
             </tr>
             <tr class="hover:bg-base-300">
               <th></th>
               <td>
-                <input @keydown.enter="handleAddTask" v-model="taskName" type="text" placeholder="Nueva tarea" class="hover:opacity-100 focus:opacity-100 input input-primary w-full opacity-60 transition-all">
+                <input @keyup.enter="handleAddTask" v-model="taskName" type="text" placeholder="Nueva tarea" class="hover:opacity-100 focus:opacity-100 input input-primary w-full opacity-60 transition-all">
               </td>
               <td></td>
             </tr>
