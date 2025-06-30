@@ -49,20 +49,15 @@ export const useProjectStore = defineStore('projects', () => {
     noProjects: computed( () => projects.value.length === 0 ),
     projectsWithCompletion: computed(() => {
       return projects.value.map(p => {
-        const tareasCompletadas = p.tasks.filter(task => task.completedAt !== null).length
+        const tareasCompletadas = p.tasks.filter(task => task.completedAt !== undefined && task.completedAt !== null).length
         return {
           id: p.id,
           pname: p.name,
           taskCount: p.tasks.length,
-          completion: tareasCompletadas
+          completion: ((tareasCompletadas / p.tasks.length)*100).toFixed(2).toString()
+          // completion: p.tasks
         }
       })
-      // {
-      //   id,
-      //   name,
-      //   taskCount,
-      //   completion,
-      // }
     }),
     //Actions
     addProject,
